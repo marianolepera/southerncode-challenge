@@ -1,95 +1,109 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
+import { useEffect, useState } from "react";
+import NavBar from '@/components/navbar/Navbar';
+import CardNasa from '@/components/card/Card';
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { getMarsRover } from "../feautures/marsRoverSlice"
+import { Box, Grid, Typography } from "@mui/material";
+import Loader from "@/components/loader/Loader";
+import MarsRover from "@/interfaces/interfaces";
+import InfiniteScroll from "react-infinite-scroll-component";
+
+
 
 export default function Home() {
+  const dispatch = useAppDispatch();
+  const { error, loading, marsRover, queryString, marsRoverPages }: any = useAppSelector((state) => state.marsRover);
+  // const [items, setItems] = useState([]);
+
+  // const [hasMore, sethasMore] = useState(true);
+
+  // const [page, setpage] = useState(0);
+
+
+  // const fetchData = async () => {
+
+  //   let queryObject: any = {
+  //     initialString: queryString ? queryString : `curiosity/latest_photos?`,
+  //     pageNumber: page + 1
+  //   }
+  //   dispatch(getMarsRover(queryObject));
+  //   if (marsRoverPages.length === 0 || marsRoverPages.length < 25) {
+  //     sethasMore(false);
+  //   }
+  //   setpage(page + 1);
+  // };
+
+  const subHeaderTitle = {
+    fontSize: 20,
+    textAlign: "center",
+    marginTop: 2,
+    color: (theme: any) => theme.palette.primary.main,
+  }
+
+  useEffect(() => {
+    let pageNumber = 1
+    let initialString = `curiosity/latest_photos?`
+    let queryObject: any = {
+      initialString,
+      pageNumber
+    }
+    dispatch(getMarsRover(queryObject));
+  }, [dispatch]);
+
+
+  if (error) {
+    return <Box> <Typography variant="h4">HUBO UN ERROR AL CARGAR LA API DE LA NASA</Typography></Box>
+  }
+
+  if (loading) {
+    return <Loader size={60} />
+  }
+
+  let photos = []
+  let latest_photos = []
+
+  if (marsRover?.photos) {
+    photos = marsRover?.photos
+  } else {
+    latest_photos = marsRover?.latest_photos
+  }
+
+
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore the Next.js 13 playground.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <>
+      <NavBar />
+      <Typography sx={subHeaderTitle}> Code challenge using the NASA API to obtain photos from the Mars Rover</Typography>
+      {/* <InfiniteScroll
+        dataLength={items.length} 
+        next={fetchData}
+        hasMore={hasMore}
+        endMessage={
+          <Typography sx={{ textAlign: "center" }}> no more data</Typography>
+        }
+        loader={<Loader size={30} />}
+      > */}
+      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+        {photos.length != 0 ?
+          <>
+            {photos && photos?.map((mars: MarsRover) => (
+              <Grid item xs={12} md={3} lg={5} xl={5} key={mars?.id}>
+                <CardNasa mars={mars} />
+              </Grid>
+            ))}
+          </>
+          :
+          <>
+            {latest_photos && latest_photos?.map((mars: MarsRover) => (
+              <Grid item xs={12} md={3} lg={5} xl={5} key={mars?.id}>
+                <CardNasa mars={mars} />
+              </Grid>
+            ))}
+          </>
+        }
+      </Grid>
+      {/* </InfiniteScroll> */}
+    </>
   )
 }
