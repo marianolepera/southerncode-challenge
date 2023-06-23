@@ -1,3 +1,4 @@
+"use client";
 import { AppBar, Box, Container, Toolbar, Typography } from "@mui/material"
 import { boxIconStyle, boxTitleStyle, headerBox, headerTitle } from "./styles"
 import LeftDrawer from "../drawer/Drawer";

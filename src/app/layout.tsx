@@ -2,7 +2,6 @@
 "use client";
 import { ThemeProvider } from '@mui/material'
 import theme from '@/themes/themes'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Providers } from '@/store/provider';
 import { Metadata } from 'next'
  
@@ -16,7 +15,6 @@ const bodyStyle = {
   backgroundColor: theme.palette.secondary.light,
 }
 
-const queryClient = new QueryClient()
 
 export default function RootLayout({
   children,
@@ -28,9 +26,7 @@ export default function RootLayout({
       <ThemeProvider theme={theme}>
         <body style={bodyStyle}>
           <Providers>
-            <QueryClientProvider client={queryClient}>
               {children}
-            </QueryClientProvider>
           </Providers>
         </body>
       </ThemeProvider>
