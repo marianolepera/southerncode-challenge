@@ -1,11 +1,5 @@
-// import './globals.css'
-// "use client";
-import { ThemeProvider } from '@mui/material'
-import theme from '@/themes/themes'
 import { Providers } from '@/store/provider';
 import { Metadata } from 'next'
-import { NextAppDirEmotionCacheProvider } from "../themes/createEmotionCache";
-import CssBaseline from "@mui/material/CssBaseline";
 import ThemeRegistry from '@/themes/ThemeRegistry';
 
 export const metadata: Metadata = {

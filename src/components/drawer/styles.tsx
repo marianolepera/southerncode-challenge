@@ -8,8 +8,8 @@ export const headerIconStyle = {
     }
 }
 
-export const menuIconStyle = (theme:any) =>({
-    fontSize:40,
+export const menuIconStyle = (theme: any) => ({
+    fontSize: 40,
     [theme.breakpoints.down('md')]: {
         fontSize: 28,
     },
@@ -18,13 +18,13 @@ export const menuIconStyle = (theme:any) =>({
     },
 })
 
-export const boxDrawerContainer =(theme:any) =>({
+export const boxDrawerContainer = (theme: any) => ({
     width: 350,
     [theme.breakpoints.down('md')]: {
         width: 250,
     },
     [theme.breakpoints.down('xs')]: {
-        width:210
+        width: 210
     },
     margin: 3,
 })
@@ -35,13 +35,13 @@ export const boxDrawerBody = {
     marginTop: 1
 }
 
-export const selectStyle =(theme:any) =>({
+export const selectStyle = (theme: any) => ({
     width: 201,
     [theme.breakpoints.down('md')]: {
         width: 170,
     },
     [theme.breakpoints.down('xs')]: {
-        width:140
+        width: 140
     },
     marginTop: 1
 })
@@ -60,7 +60,7 @@ export const buttonContainer = {
     marginTop: 1,
 }
 
-export const buttonCleanContainer =(theme:any)=> ({
+export const buttonCleanContainer = (theme: any) => ({
     display: "flex",
     justifyContent: "center",
     textAlign: "center",
@@ -89,7 +89,7 @@ export const buttonFilterFavorite = {
     marginLeft: 1
 }
 
-export const deleteIconButtonStyle =(theme: any) => ({
+export const deleteIconButtonStyle = (theme: any) => ({
     color: (theme: any) => theme.palette.primary.main,
     marginTop: 4,
     marginLeft: 3,

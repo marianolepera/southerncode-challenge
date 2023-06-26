@@ -1,41 +1,44 @@
 "use client";
 import { useEffect, useState } from "react";
-
 import CardNasa from '@/components/card/Card';
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { getMarsRover } from "@/feautures/marsRoverSlice"
+import { getMarsRover, resetToast } from "@/feautures/marsRoverSlice"
 import { Box, Grid, Typography } from "@mui/material";
 import Loader from "@/components/loader/Loader";
 import MarsRover from "@/interfaces/interfaces";
-import InfiniteScroll from "react-infinite-scroll-component";
-import { subHeaderTitle } from "./styles";
+import { errorStyle, subHeaderTitle } from "./styles";
+import Toaster from "../toast/Toaster";
 
 const HomePage = () => {
   const dispatch = useAppDispatch();
-  const { error, loading, marsRover, queryString, marsRoverPages }: any = useAppSelector((state) => state.marsRover);
-  // const [items, setItems] = useState([]);
+  const { error, loading, marsRover, success, message }: any = useAppSelector((state) => state.marsRover);
+  const [open, setOpen] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-  // const [hasMore, sethasMore] = useState(true);
+  const handleClickOpenError = () => {
+    setOpenError(true);
+  };
 
-  // const [page, setpage] = useState(0);
 
+  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
 
-  // const fetchData = async () => {
-
-  //   let queryObject: any = {
-  //     initialString: queryString ? queryString : `curiosity/latest_photos?`,
-  //     pageNumber: page + 1
-  //   }
-  //   dispatch(getMarsRover(queryObject));
-  //   if (marsRoverPages.length === 0 || marsRoverPages.length < 25) {
-  //     sethasMore(false);
-  //   }
-  //   setpage(page + 1);
-  // };
-
-  
 
   useEffect(() => {
+    if (error) {
+      handleClickOpenError()
+    }
+    if (success) {
+      handleClickOpen()
+    }
+
     let pageNumber = 1
     let initialString = `curiosity/latest_photos?`
     let queryObject: any = {
@@ -43,11 +46,17 @@ const HomePage = () => {
       pageNumber
     }
     dispatch(getMarsRover(queryObject));
+  }, [dispatch,error,success,message]);
+
+  useEffect(() => {
+  
+    dispatch(resetToast());
   }, [dispatch]);
 
+ 
 
   if (error) {
-    return <Box> <Typography variant="h4">HUBO UN ERROR AL CARGAR LA API DE LA NASA</Typography></Box>
+    return <Box sx={errorStyle}> <Typography variant="h4">There was an error loading the nasa api!</Typography></Box>
   }
 
   if (loading) {
@@ -65,16 +74,13 @@ const HomePage = () => {
 
   return (
     <>
+      {message != "" &&
+        <>
+          <Toaster severity="success" open={open} message={message} handleClose={handleClose} />
+          <Toaster severity="error" open={openError} message={message} handleClose={handleClose} />
+        </>
+      }
       <Typography sx={subHeaderTitle}> Code challenge using the NASA API to obtain photos from the Mars Rover</Typography>
-      {/* <InfiniteScroll
-        dataLength={items.length} 
-        next={fetchData}
-        hasMore={hasMore}
-        endMessage={
-          <Typography sx={{ textAlign: "center" }}> no more data</Typography>
-        }
-        loader={<Loader size={30} />}
-      > */}
       <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
         {photos.length != 0 ?
           <>
@@ -94,7 +100,6 @@ const HomePage = () => {
           </>
         }
       </Grid>
-      {/* </InfiniteScroll> */}
     </>
   )
 }

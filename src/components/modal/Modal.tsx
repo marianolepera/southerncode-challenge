@@ -1,4 +1,3 @@
-// "use client"
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -9,7 +8,8 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { buttonModalStyle } from './styles';
 import { Typography } from '@mui/material';
 import { BookMark } from '@/types/types';
-import Toaster from '../toast/Toaster';
+import { addBookMark } from '@/feautures/marsRoverSlice';
+import { useAppDispatch } from "@/store/hooks";
 
 
 interface FormDialogProps {
@@ -21,21 +21,11 @@ interface FormDialogProps {
   setOpen: (open: boolean) => void;
 }
 const FormDialog: React.FC<FormDialogProps> = ({ open, setOpen, rover, camera, dateFilter, date }: FormDialogProps) => {
-
   const [name, setName] = React.useState("")
-  const [success, setSuccess] = React.useState(false)
-  const [openToaster, setOpenToaster] = React.useState(false);
+  const dispatch = useAppDispatch();
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleCloseToaster = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpenToaster(false);
   };
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -52,14 +42,8 @@ const FormDialog: React.FC<FormDialogProps> = ({ open, setOpen, rover, camera, d
       name: name,
       id: Math.floor(Math.random() * 1000000)
     }
-    if (typeof window !== 'undefined') {
-      let bookmarks = JSON.parse(window.localStorage.getItem("bookmarks") || "[]");
-      bookmarks.push(query);
-      setSuccess(true)
-      window.localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
-      setOpenToaster(true)
-      handleClose()
-    }
+    dispatch(addBookMark(query))
+    handleClose()
   }
   return (
     <div>

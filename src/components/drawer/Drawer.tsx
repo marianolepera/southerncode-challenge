@@ -270,7 +270,7 @@ export default function LeftDrawer() {
                         onClick={toggleDrawer(anchor, true)}
                         color="inherit"
                     >
-                        <MenuIcon  sx={menuIconStyle} />
+                        <MenuIcon sx={menuIconStyle} />
                     </IconButton>
                     <Drawer
                         anchor={anchor}

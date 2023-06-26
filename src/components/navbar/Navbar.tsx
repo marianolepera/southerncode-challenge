@@ -8,16 +8,14 @@ const NavBar = () => {
     return (
         <>
             <AppBar position="static" sx={headerBox}>
-                <Container maxWidth="xl" >
-                    <Toolbar disableGutters>
-                        <Box sx={boxIconStyle}>
-                            <LeftDrawer />
-                        </Box>
-                        <Box sx={boxTitleStyle}>
-                            <Typography sx={headerTitle}> Southern Code Challenge</Typography>
-                        </Box>
-                    </Toolbar>
-                </Container>
+                <Toolbar disableGutters>
+                    <Box sx={boxIconStyle}>
+                        <LeftDrawer />
+                    </Box>
+                    <Box sx={boxTitleStyle}>
+                        <Typography sx={headerTitle}> Southern Code Challenge</Typography>
+                    </Box>
+                </Toolbar>
             </AppBar>
         </>
     )
