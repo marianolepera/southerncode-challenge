@@ -71,7 +71,6 @@ export default function LeftDrawer() {
             initialString,
             pageNumber,
         }
-        console.log("string", queryObject)
         dispatch(addQueryString(queryObject))
         dispatch(getMarsRover(queryObject))
         dispatch(reset())
@@ -100,8 +99,6 @@ export default function LeftDrawer() {
         if (typeof window !== 'undefined') {
             let bookmarks = JSON.parse(window.localStorage.getItem("bookmarks") || "[]");
             const bookMarkFiltered = bookmarks.filter((bookMark: BookMark) => bookMark.id != parseInt(book));
-            console.log("bookMarkToDelete", bookMarkFiltered)
-            console.log("book", bookMarkFiltered.length)
             if (bookMarkFiltered) {
                 window.localStorage.setItem("bookmarks", JSON.stringify(bookMarkFiltered));
                 clearFilter()
