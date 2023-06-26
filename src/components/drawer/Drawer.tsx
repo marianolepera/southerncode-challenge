@@ -180,7 +180,7 @@ export default function LeftDrawer() {
                     </FormControl>
                     <FormControl>
                         <FormLabel>Camera</FormLabel>
-                        <Select sx={selectStyle} name="camera" onChange={(e) => setCamera(e.target.value)} value={camera}  >
+                        <Select role="select" sx={selectStyle} name="camera" onChange={(e) => setCamera(e.target.value)} value={camera}  >
                             <MenuItem value="select"> Select Camera</MenuItem>
                             {cameras?.get(rover)?.map((camera, index) => (<MenuItem key={index} value={camera}>{camera}</MenuItem>))}
                         </Select>
