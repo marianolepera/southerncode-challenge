@@ -6,7 +6,7 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import { FormControl, FormHelperText, FormLabel, IconButton, MenuItem, Select, SelectChangeEvent, TextField, Tooltip, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { boxDrawerBody, boxDrawerContainer, boxDrawerTitle, buttonClean, buttonCleanContainer, buttonContainer, buttonFilter, buttonFilterFavorite, deleteIconButtonStyle, deleteIconStyle, headerIconStyle, iconCloseStyle, selectStyle } from './styles';
+import { boxDrawerBody, boxDrawerContainer, boxDrawerTitle, buttonClean, buttonCleanContainer, buttonContainer, buttonFilter, buttonFilterFavorite, deleteIconButtonStyle, deleteIconStyle, headerIconStyle, iconCloseStyle, menuIconStyle, selectStyle } from './styles';
 import { BookMark, QueryString, RoverType, cameras, datesFilter } from '@/types/types';
 import HighlightOffRoundedIcon from '@mui/icons-material/HighlightOffRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -270,7 +270,7 @@ export default function LeftDrawer() {
                         onClick={toggleDrawer(anchor, true)}
                         color="inherit"
                     >
-                        <MenuIcon fontSize='large' />
+                        <MenuIcon  sx={menuIconStyle} />
                     </IconButton>
                     <Drawer
                         anchor={anchor}

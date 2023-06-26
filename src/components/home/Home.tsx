@@ -8,68 +8,64 @@ import { Box, Grid, Typography } from "@mui/material";
 import Loader from "@/components/loader/Loader";
 import MarsRover from "@/interfaces/interfaces";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { subHeaderTitle } from "./styles";
 
-const HomePage = () =>{
-    const dispatch = useAppDispatch();
-    const { error, loading, marsRover, queryString, marsRoverPages }: any = useAppSelector((state) => state.marsRover);
-    // const [items, setItems] = useState([]);
-  
-    // const [hasMore, sethasMore] = useState(true);
-  
-    // const [page, setpage] = useState(0);
-  
-  
-    // const fetchData = async () => {
-  
-    //   let queryObject: any = {
-    //     initialString: queryString ? queryString : `curiosity/latest_photos?`,
-    //     pageNumber: page + 1
-    //   }
-    //   dispatch(getMarsRover(queryObject));
-    //   if (marsRoverPages.length === 0 || marsRoverPages.length < 25) {
-    //     sethasMore(false);
-    //   }
-    //   setpage(page + 1);
-    // };
-  
-    const subHeaderTitle = {
-      fontSize: 20,
-      textAlign: "center",
-      marginTop: 2,
-      color: (theme: any) => theme.palette.primary.main,
-    }
-  
-    useEffect(() => {
-      let pageNumber = 1
-      let initialString = `curiosity/latest_photos?`
-      let queryObject: any = {
-        initialString,
-        pageNumber
-      }
-      dispatch(getMarsRover(queryObject));
-    }, [dispatch]);
-  
-  
-    if (error) {
-      return <Box> <Typography variant="h4">HUBO UN ERROR AL CARGAR LA API DE LA NASA</Typography></Box>
-    }
-  
-    if (loading) {
-      return <Loader size={60} />
-    }
-  
-    let photos = []
-    let latest_photos = []
-  
-    if (marsRover?.photos) {
-      photos = marsRover?.photos
-    } else {
-      latest_photos = marsRover?.latest_photos
-    }
+const HomePage = () => {
+  const dispatch = useAppDispatch();
+  const { error, loading, marsRover, queryString, marsRoverPages }: any = useAppSelector((state) => state.marsRover);
+  // const [items, setItems] = useState([]);
 
-    return (
-        <>
-        <Typography sx={subHeaderTitle}> Code challenge using the NASA API to obtain photos from the Mars Rover</Typography>
+  // const [hasMore, sethasMore] = useState(true);
+
+  // const [page, setpage] = useState(0);
+
+
+  // const fetchData = async () => {
+
+  //   let queryObject: any = {
+  //     initialString: queryString ? queryString : `curiosity/latest_photos?`,
+  //     pageNumber: page + 1
+  //   }
+  //   dispatch(getMarsRover(queryObject));
+  //   if (marsRoverPages.length === 0 || marsRoverPages.length < 25) {
+  //     sethasMore(false);
+  //   }
+  //   setpage(page + 1);
+  // };
+
+  
+
+  useEffect(() => {
+    let pageNumber = 1
+    let initialString = `curiosity/latest_photos?`
+    let queryObject: any = {
+      initialString,
+      pageNumber
+    }
+    dispatch(getMarsRover(queryObject));
+  }, [dispatch]);
+
+
+  if (error) {
+    return <Box> <Typography variant="h4">HUBO UN ERROR AL CARGAR LA API DE LA NASA</Typography></Box>
+  }
+
+  if (loading) {
+    return <Loader size={60} />
+  }
+
+  let photos = []
+  let latest_photos = []
+
+  if (marsRover?.photos) {
+    photos = marsRover?.photos
+  } else {
+    latest_photos = marsRover?.latest_photos
+  }
+
+  return (
+    <>
+      <Typography sx={subHeaderTitle}> Code challenge using the NASA API to obtain photos from the Mars Rover</Typography>
       {/* <InfiniteScroll
         dataLength={items.length} 
         next={fetchData}
@@ -99,8 +95,8 @@ const HomePage = () =>{
         }
       </Grid>
       {/* </InfiniteScroll> */}
-      </>
-    )
+    </>
+  )
 }
 
 export default HomePage
